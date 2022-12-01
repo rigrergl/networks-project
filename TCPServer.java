@@ -12,7 +12,7 @@ class TCPServer {
     ServerSocket welcomeSocket = new ServerSocket(6789); //creating welcome socket
 
     while (true) {
-        Socket connectionSocket = welcomeSocket.accepts; //listens and accepting connection to socket 
+        Socket connectionSocket = welcomeSocket.accept(); //listens and accepting connection to socket 
 
         SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy.HH:mm:ss"); 
         timeStamp = df.format(new Date());  //saving time of connection request
