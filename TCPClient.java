@@ -39,7 +39,6 @@ class TCPClient {
       System.out.println("CALCULATED RESULT FROM SERVER: " + result + "\n");
 
       System.out.print("ENTER ANOTHER MATH EXPRESSION or end to close connection >>> ");
-      System.out.println("THIS IS A TEST");
       expression = inFromUser.readLine();
     }
 
