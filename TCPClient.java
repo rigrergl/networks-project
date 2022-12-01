@@ -13,15 +13,16 @@ class TCPClient {
         System.out.println("Error. Please include client name when creating request");
     }
 
-    BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 
 
     Socket clientSocket = new Socket("127.0.0.1", 6789);
     
+    
     DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
     BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+    BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 
-    String expression = inFromUser.readLine();
+
 
     String clientName = args[0];
     outToServer.writeBytes(clientName + '\n');
@@ -29,7 +30,7 @@ class TCPClient {
 
     System.out.print("\nENTER THE MATH EXPRESSION >>> ");
 
-    expression = inFromUser.readLine();
+    String expression = inFromUser.readLine();
     String result;
 
     while (!expression.equals(TERMINATE_MESSAGE)) {
