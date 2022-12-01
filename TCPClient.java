@@ -5,10 +5,14 @@ import java.util.function.IntPredicate;
 
 class TCPClient {
   private static final String TERMINATE_MESSAGE = "end";
-  private static final String REQUEST_MESSAGE = "start";
 
 
   public static void main(String[] args) throws Exception {
+
+    if(args.length != 1){
+        System.out.println("Error. Please include client name when creating request");
+    }
+
     BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 
 
@@ -17,16 +21,21 @@ class TCPClient {
     DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
     BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-
-    System.out.print("ENTER THE MATH EXPRESSION >>> ");
-
     String expression = inFromUser.readLine();
+
+    String clientName = args[0];
+    outToServer.writeBytes(clientName + '\n');
+
+
+    System.out.print("\nENTER THE MATH EXPRESSION >>> ");
+
+    expression = inFromUser.readLine();
     String result;
 
     while (!expression.equals(TERMINATE_MESSAGE)) {
       outToServer.writeBytes(expression + '\n');
       result = inFromServer.readLine();
-      System.out.println("CALCULATED RESULT FROM SERVER: " + result);
+      System.out.println("CALCULATED RESULT FROM SERVER: " + result + "\n");
 
       System.out.print("ENTER ANOTHER MATH EXPRESSION or end to close connection >>> ");
       expression = inFromUser.readLine();
@@ -39,5 +48,3 @@ class TCPClient {
 
 }
 
-
-  
