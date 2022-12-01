@@ -1,29 +1,30 @@
 import java.io.*;
 import java.net.*;
+import java.util.function.IntPredicate;
 
 class TCPClient {
+  private static final String TERMINATE_MESSAGE = "end";
 
-  public static void main(String argv[]) throws Exception {
-    String sentence;
-    String modifiedSentence;
-
+  public static void main(String[] args) throws Exception {
     BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 
     Socket clientSocket = new Socket("127.0.0.1", 6789);
-
+    
     DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-
     BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-    sentence = inFromUser.readLine();
+    String expression = inFromUser.readLine();
+    String result;
+    while (!expression.equals(TERMINATE_MESSAGE)) {
+      outToServer.writeBytes(expression + '\n');
+      result = inFromServer.readLine();
+      System.out.println("FROM SERVER: " + result);
 
-    outToServer.writeBytes(sentence + '\n');
+      expression = inFromUser.readLine();
+    }
 
-    modifiedSentence = inFromServer.readLine();
-
-    System.out.println("FROM SERVER: " + modifiedSentence);
-
+    outToServer.writeBytes(TERMINATE_MESSAGE);
     clientSocket.close();
-
   }
+
 }

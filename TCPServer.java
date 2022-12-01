@@ -23,30 +23,31 @@ class TCPServer {
 
     @Override
     public void run() {
-      BufferedReader inFromClient;
-      DataOutputStream outToClient;
-
       try {
-        inFromClient = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
-        outToClient = new DataOutputStream(this.clientSocket.getOutputStream())
-      } catch (Exception e) {
-        System.out.println("Exception occurred in server: " + e.getMessage());
-      }
+        BufferedReader inFromClient = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
+        DataOutputStream outToClient = new DataOutputStream(this.clientSocket.getOutputStream());
 
-      String clientExpression;
-      String expressionResult;
-      while (true) {
-        clientExpression = inFromClient.readLine();
-
-        if (clientExpression.equals(TERMINATE_MESSAGE)) {
-          this.clientSocket.close();
-          break;
+        String clientExpression;
+        String expressionResult;
+        while (true) {
+          clientExpression = inFromClient.readLine();
+  
+          if (clientExpression.equals(TERMINATE_MESSAGE)) {
+            this.clientSocket.close();
+            break;
+          }
+  
+          expressionResult = clientExpression.toUpperCase() + '\n'; // TODO: change to actual result
+          outToClient.writeBytes(expressionResult);
         }
 
-        expressionResult = clientExpression.toUpperCase() + '\n'; // TODO: change to actual result
-        outToClient.writeBytes(expressionResult);
+        clientSocket.close();
+      } catch (Exception e) {
+        System.out.println("Exception occurred in server: " + e.getMessage());
+        e.printStackTrace();
       }
-    }
 
+      System.out.println("Connection closed");
+    }
   }
 }
