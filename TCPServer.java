@@ -1,5 +1,7 @@
 import java.io.*;
 import java.net.*;
+import java.util.Date; 
+import java.text.SimpleDateFormat;
 
 class TCPServer {
 
@@ -8,10 +10,17 @@ class TCPServer {
   public static void main(String argv[]) throws Exception {
     ServerSocket welcomeSocket = new ServerSocket(6789);
 
+
+
     while (true) {
-      Socket connectionSocket = welcomeSocket.accept();
-      Runnable connectionHandler = new ConnectionHandler(connectionSocket);
-      new Thread(connectionHandler).start();
+        Socket connectionSocket = welcomeSocket.accept();
+
+        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy.HH:mm:ss"); 
+        String timeStamp = df.format(new Date()); 
+        System.out.println("The connection was made at: " + timeStamp);
+  
+        Runnable connectionHandler = new ConnectionHandler(connectionSocket);
+        new Thread(connectionHandler).start();
     }
   }
   private static class ConnectionHandler implements Runnable {
@@ -21,12 +30,15 @@ class TCPServer {
       this.clientSocket = clientSocket;
     }
     public void run() {
+        long startTime = System.nanoTime();
         try {
           BufferedReader inFromClient = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
           DataOutputStream outToClient = new DataOutputStream(this.clientSocket.getOutputStream());
   
           String clientRequest;
           String expressionResult;
+
+
           while (true) {
             clientRequest = inFromClient.readLine();
     
@@ -46,6 +58,9 @@ class TCPServer {
         }
   
         System.out.println("Connection closed");
+        long endTime = System.nanoTime();
+        long total = (endTime - startTime)/1000000000; 
+        System.out.println("Time connection ran: " + total + " seconds");
       }
     }
     public static String calculator(String expression) {
@@ -71,5 +86,3 @@ class TCPServer {
       }
     }
 }
-
-           
