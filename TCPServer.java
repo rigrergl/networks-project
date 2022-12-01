@@ -9,6 +9,7 @@ class TCPServer {
   static String timeStamp; 
 
   public static void main(String argv[]) throws Exception {
+    System.out.println("Server started");
     ServerSocket welcomeSocket = new ServerSocket(6789); //creating welcome socket
 
     while (true) {
