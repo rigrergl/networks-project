@@ -2,7 +2,7 @@ import subprocess
 def compile_java(java_file):
     cmd = '/path/to/javac/javac ' + java_file 
     # cmd = 'C:/\"Program Files\"/Java/jdk-19/bin/javac.exe ' + java_file # TODO: automate javac location
-    proc = subprocess.Popen(cmd, shell=True, creationflags=subprocess.CREATE_NEW_CONSOLE)
+    proc = subprocess.Popen(cmd, shell=True)
 
 def run_server():
     cmd = 'start java TCPServer'
