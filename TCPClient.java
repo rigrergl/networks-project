@@ -20,6 +20,7 @@ class TCPClient {
     BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in)); //creating way to receive from user
 
     String clientName = args[0]; //storing client name from command line
+    System.out.println("Shell for: " + clientName);
     outToServer.writeBytes(clientName + '\n'); //sending name to server
 
     //getting expression from user
