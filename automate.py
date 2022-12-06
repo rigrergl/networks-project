@@ -1,5 +1,6 @@
 import subprocess
 import os
+import time
 
 def compile_java(file_name):
     os.system("javac " + file_name)
@@ -10,6 +11,7 @@ def run_server():
 
 
 def run_client(client_name): 
+    time.sleep(0.1)
     cmd = 'start java TCPClient ' + client_name
     proc = subprocess.Popen(cmd, shell=True)
 
